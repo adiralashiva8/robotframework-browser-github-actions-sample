@@ -54,7 +54,7 @@ jobs:
           pip install robotframework
           pip install robotframework-browser
           rfbrowser init chromium
-          pip install robotframework-metrics
+          pip install git+https://github.com/adiralashiva8/robotframework-metrics
 
       - name: Run Robot Framework tests
         run: |
