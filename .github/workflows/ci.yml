@@ -30,17 +30,31 @@ jobs:
         with:
           node-version: 18
 
+      # Cache Python dependencies
+      - name: Cache Python packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      # Cache Node.js dependencies
+      - name: Cache Node.js modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
       - name: Install Robot Framework and Browser library
         run: |
           python -m pip install --upgrade pip
           pip install robotframework
           pip install robotframework-browser
-          rfbrowser init
+          rfbrowser init chromium
           pip install robotframework-metrics
-
-      - name: Install Chrome Driver
-        run: |
-          choco install chromedriver
 
       - name: Run Robot Framework tests
         run: |
